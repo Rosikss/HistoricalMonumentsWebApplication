@@ -1,5 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using HistoricalMonumentsWebApplication.Models;
+using Microsoft.EntityFrameworkCore;
+using HistoricalMonumentsWebApplication;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<DblibraryContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
