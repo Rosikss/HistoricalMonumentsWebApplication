@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HistoricalMonumentsWebApplication.Models;
 
 public partial class HistoricalMonumentArchitect
 {
     public int Id { get; set; }
-
+    [Display(Name = "Архітектор")]
     public int ArchitectId { get; set; }
-
+    [Display(Name = "Історична пам'ятка")]
     public int HistoricalMonumentId { get; set; }
-
-    public virtual Architect Architect { get; set; } = null!;
-
-    public virtual HistoricalMonument HistoricalMonument { get; set; } = null!;
+    [Display(Name = "Архітектор")]
+    
+    public virtual Architect? Architect { get; set; }
+    [Display(Name = "Історична пам'ятка")]
+    
+    public virtual HistoricalMonument? HistoricalMonument { get; set; }
 }
