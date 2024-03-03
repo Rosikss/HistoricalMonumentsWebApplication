@@ -1,0 +1,45 @@
+﻿@model PaginationModel
+
+@{
+  ViewData["Title"] = "Історичні пам'ятки";
+  var historicalMonuments = Model.HistoricalMonuments;
+  var page = Model.Pages;
+}
+
+
+<div class="container text-center">
+  <div class="row row-cols-lg-4 w-100">
+    @foreach (var item in historicalMonuments)
+    {
+      <div class="card  mb-4 me-lg-5" style="width: 18rem;">
+        <img src="~/phostos/XOT001-e1530490453385-1024x576.jpg" class="card-img-top " alt="None">
+        <div class="card-body">
+          <h5 class="card-title">@item.Name</h5>
+          <p class="card-text">@item.Description.Substring(0, 70)...</p>
+          <a href="~/HistoricalMonuments/Details/@item.Id" class="btn btn-primary">Деталі</a>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+
+<div class="pagination-center ">
+  
+    
+      <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-margin">
+          @* <li class="page-item"><a class="page-link" href="#">Previous</a></li> *@
+          @for (int i = 1; i <= page; i++)
+          {
+                <li class="page-item"><a class="page-link" href="~/historical-monuments?page=@i">@i</a></li>
+          }
+          @* <li class="page-item"><a class="page-link" href="#">Next</a></li> *@
+         
+        </ul>
+      </nav>
+    
+  
+</div>
+
+

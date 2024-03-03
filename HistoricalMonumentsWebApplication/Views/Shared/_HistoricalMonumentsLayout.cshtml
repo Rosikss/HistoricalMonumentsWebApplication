@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@{
+    List<Country> countries = ViewBag.Countries;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="css/site.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container-fluid" style="z-index: 100;">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                
+                
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Країни
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Класифікації
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            ....
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/historical-monuments">
+                            Скинути
+                        </a>
+                    </li>
+                    <!-- Add more sidebar items as needed -->
+                </ul>
+            </div>
+        </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 footer-height navbar-height-monuments">
+            @RenderBody()
+        </main>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

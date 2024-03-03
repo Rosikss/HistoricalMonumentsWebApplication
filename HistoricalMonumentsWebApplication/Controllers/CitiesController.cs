@@ -21,6 +21,7 @@ namespace HistoricalMonumentsWebApplication.Controllers
         // GET: Cities
         public async Task<IActionResult> Index()
         {
+            
             var dblibraryContext = _context.Cities.Include(c => c.Country);
             return View(await dblibraryContext.ToListAsync());
         }
