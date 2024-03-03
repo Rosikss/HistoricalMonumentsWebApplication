@@ -33,8 +33,7 @@ public partial class DblibraryContext : DbContext
 
     public virtual DbSet<Status> Statuses { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnection");
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

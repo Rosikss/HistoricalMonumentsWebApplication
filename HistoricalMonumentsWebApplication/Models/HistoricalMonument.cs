@@ -35,6 +35,6 @@ public partial class HistoricalMonument
     public virtual ICollection<HistoricalMonumentArchitect> HistoricalMonumentArchitects { get; set; } = new List<HistoricalMonumentArchitect>();
 
     public virtual ICollection<HistoricalMonumentMaterial> HistoricalMonumentMaterials { get; set; } = new List<HistoricalMonumentMaterial>();
-
+    [Display(Name = "Статус")]
     public virtual Status? Status { get; set; }
 }

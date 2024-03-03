@@ -1,5 +1,6 @@
 using HistoricalMonumentsWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace HistoricalMonumentsWebApplication.Controllers
@@ -7,15 +8,22 @@ namespace HistoricalMonumentsWebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DblibraryContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, DblibraryContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var historicalMonuments = await _context.HistoricalMonuments.ToListAsync();
+
+            var lastThreeHistoricalMonuments = historicalMonuments.TakeLast(3).ToList();
+
+            return View(lastThreeHistoricalMonuments);
         }
 
         public IActionResult Privacy()
