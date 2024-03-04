@@ -37,4 +37,6 @@ public partial class HistoricalMonument
     public virtual ICollection<HistoricalMonumentMaterial> HistoricalMonumentMaterials { get; set; } = new List<HistoricalMonumentMaterial>();
     [Display(Name = "Статус")]
     public virtual Status? Status { get; set; }
+
+    public string? Photo { get; set; }
 }

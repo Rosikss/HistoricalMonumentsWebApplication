@@ -36,7 +36,7 @@
         @for (int i = 0; i < Model.Count; i++)
         {
             <div class="carousel-item @(i == 0 ? "active" : "")">
-                <img src="~/phostos/XOT001-e1530490453385-1024x576.jpg" class="d-block w-100" alt="...">
+                <img src="@Model[i].Photo" alt="..." class="w-100 h-100">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>@Model[i].Name</h5>
                     <p>Перегляньте останні додані пам'ятки</p>

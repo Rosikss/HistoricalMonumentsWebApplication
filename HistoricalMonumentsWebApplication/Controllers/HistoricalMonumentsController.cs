@@ -98,7 +98,7 @@ namespace HistoricalMonumentsWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartingYear,EndingYear,Description,CityId,ClassificationId,StatusId")] HistoricalMonument historicalMonument)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartingYear,EndingYear,Description,CityId,ClassificationId,StatusId, Photo")] HistoricalMonument historicalMonument)
         {
             if (id != historicalMonument.Id)
             {
