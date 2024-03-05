@@ -3,43 +3,52 @@
 @{
   ViewData["Title"] = "Історичні пам'ятки";
   var historicalMonuments = Model.HistoricalMonuments;
-  var page = Model.Pages;
+  var pages = Model.Pages;
+  var currentPage = Model.CurrentPage;
 }
 
+<div class="container ">
+    <div class="row row-cols-lg-6 justify-content-center">
 
-<div class="container text-center">
-  <div class="row row-cols-lg-4 w-100">
     @foreach (var item in historicalMonuments)
     {
-      <div class="card  mb-4 me-lg-5" style="width: 18rem;">
-        <img src="@item.Photo" class="card-img-top" alt="None">
+      <div class="card mb-4 me-lg-2" style="width: 18rem;">
+        <img class="card-img-top w-100 h-100" src="@item.Photo" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">@item.Name</h5>
           <p class="card-text">@item.Description.Substring(0, 70)...</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Місто: @item.City.Name</li>
+          <li class="list-group-item">Категорія: @item.Classification.Name</li>
+
+        </ul>
+        <div class="card-body">
           <a href="~/HistoricalMonuments/Details/@item.Id" class="btn btn-primary">Деталі</a>
+
         </div>
       </div>
     }
+
+
   </div>
 </div>
-
 
 <div class="pagination-center ">
   
     
       <nav aria-label="Page navigation example">
         <ul class="pagination pagination-margin">
-          @* <li class="page-item"><a class="page-link" href="#">Previous</a></li> *@
-          @for (int i = 1; i <= page; i++)
+            <li class="page-item"><a class="page-link" href="~/historical-monuments/@Model.Category?page=@(currentPage - 1 >= 1 ? currentPage - 1 : currentPage)&categoryOption=@Model.CategoryOption">Попередня</a></li>
+            @for (int i = 1; i <= pages; i++)
           {
-                <li class="page-item"><a class="page-link" href="~/historical-monuments?page=@i">@i</a></li>
+                <li class="page-item"><a class="page-link" href="~/historical-monuments/@Model.Category?page=@i&categoryOption=@Model.CategoryOption">@i</a></li>
           }
-          @* <li class="page-item"><a class="page-link" href="#">Next</a></li> *@
+            <li class="page-item"><a class="page-link" href="~/historical-monuments/@Model.Category?page=@(currentPage + 1 <= pages ? currentPage + 1 : currentPage)&categoryOption=@Model.CategoryOption">Наступна</a></li>
          
         </ul>
       </nav>
     
   
 </div>
-
 
