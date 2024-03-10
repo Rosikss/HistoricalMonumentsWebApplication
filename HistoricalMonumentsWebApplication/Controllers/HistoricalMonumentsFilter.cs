@@ -17,11 +17,17 @@ public class HistoricalMonumentsFilter : Controller
     }
 
     [Route("historical-monuments/{category?}")]
-    public async Task<IActionResult> Index([FromQuery] string categoryOption, [FromRoute] string? category = "all",
+    public async Task<IActionResult> Index([FromQuery] string categoryOption, string? searchString, [FromRoute] string? category = "all",
         [FromQuery] int page = 1)
     {
+        var allMonuments = await _context.HistoricalMonuments.Include(h => h.City)
+            .Include(h => h.Classification)
+            .Include(h => h.Status).ToListAsync();
+
         ViewBag.Cities = await _context.Cities.Select(city => city.Name).Distinct().ToListAsync();
         ViewBag.Classifications = await _context.Classifications.Select(classification => classification.Name).Distinct().ToListAsync();
+
+        
 
         Dictionary<string, Func<HistoricalMonument, bool>> _filters = new()
         {
@@ -30,9 +36,7 @@ public class HistoricalMonumentsFilter : Controller
         };
 
 
-        var allMonuments = await _context.HistoricalMonuments.Include(h => h.City)
-            .Include(h => h.Classification)
-            .Include(h => h.Status).ToListAsync();
+       
 
         var totalElements = allMonuments.Count;
 
@@ -42,6 +46,28 @@ public class HistoricalMonumentsFilter : Controller
         if (page > pages || page < 1 || string.IsNullOrEmpty(category)) return RedirectToAction(nameof(Index), new { page = 1, category = "all" });
 
         List<HistoricalMonument> filteredMonuments = category == "all" ? allMonuments : Filter(allMonuments, _filters[category]);
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            var searchMonuments =
+                allMonuments.Where(historicalMonument => historicalMonument.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            
+            totalElements = searchMonuments.Count;
+
+            pages = (int)Math.Ceiling((decimal)totalElements / PageItems);
+            var paginationModel2 = new PaginationModel
+            {
+                HistoricalMonuments = searchMonuments,
+                Pages = pages,
+                CurrentPage = page,
+                Category = category,
+                CategoryOption = string.IsNullOrEmpty(categoryOption) ? "Empty" : categoryOption
+            };
+
+            return View(paginationModel2);
+        }
+
+        
 
         var paginationHistoricalMonuments = filteredMonuments.Skip((page - 1) * PageItems).Take(PageItems).ToList();
 

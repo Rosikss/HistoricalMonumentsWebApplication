@@ -26,6 +26,31 @@ namespace HistoricalMonumentsWebApplication.Controllers
             return View(lastThreeHistoricalMonuments);
         }
 
+        [HttpGet("countByCategory")]
+        public async Task<IActionResult>
+            GetCountByCategoryAsync(CancellationToken cancellationToken)
+        {
+            var responseItems = await _context.HistoricalMonuments
+                .GroupBy(historicalMonument => historicalMonument.Classification.Name)
+                .Select(group => new CountByCategoryItem(group.Key.ToString(), group.Count()))
+                .ToListAsync(cancellationToken: cancellationToken);
+                
+            return Json(responseItems);
+        }
+
+        [HttpGet("countByCategory2")]
+        public async Task<IActionResult>
+            GetCountByYearAsync(CancellationToken cancellationToken)
+        {
+            var responseItems = await _context.HistoricalMonumentMaterials
+                .GroupBy(historicalMonument => historicalMonument.Material.Name)
+                .Select(group => new CountByCategoryItem(group.Key.ToString(), group.Count()))
+                .ToListAsync(cancellationToken: cancellationToken);
+
+            return Json(responseItems);
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

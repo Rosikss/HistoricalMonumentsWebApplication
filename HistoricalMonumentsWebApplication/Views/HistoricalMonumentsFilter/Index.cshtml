@@ -6,6 +6,26 @@
   var pages = Model.Pages;
   var currentPage = Model.CurrentPage;
 }
+@* <div class ="searchForm">
+  <form action="~/historical-monuments/all" >
+    <input type="search" name="searchString"/>
+    <button>Пошук</button>
+  </form>
+</div> *@
+<form action="~/historical-monuments/all">
+    <div class="search-container">
+    <div class="input-group mb-3 search-form">
+
+            <input type="search" class="form-control" placeholder="Назва Пам'ятки" aria-label="Назва Пам'ятки" aria-describedby="basic-addon2" name="searchString">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary">Пошук</button>
+      </div>
+
+    </div>
+  </div>
+  
+</form>
+
 
 <div class="container ">
     <div class="row row-cols-lg-6 justify-content-center">

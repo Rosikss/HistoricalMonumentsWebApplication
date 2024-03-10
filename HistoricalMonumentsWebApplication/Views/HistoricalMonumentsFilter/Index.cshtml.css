@@ -1,0 +1,13 @@
+﻿body {
+}
+.search-form {
+    
+    width: 65%;
+
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    
+}
