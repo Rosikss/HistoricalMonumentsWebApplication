@@ -149,3 +149,19 @@ select{
 select:focus{
   outline:none;
 }
+
+.export-btn {
+  background-color: green;
+  border: none;
+  border-radius: 15px;
+  padding: 12px 17px 12px 17px;
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  color: white;
+  opacity: 0.8;
+}

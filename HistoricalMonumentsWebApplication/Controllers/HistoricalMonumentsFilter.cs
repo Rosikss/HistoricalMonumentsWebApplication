@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using HistoricalMonumentsWebApplication.Services;
+
 
 namespace HistoricalMonumentsWebApplication.Controllers;
 
@@ -10,10 +12,12 @@ public class HistoricalMonumentsFilter : Controller
 {
     private const int PageItems = 8;
     private readonly DblibraryContext _context;
+    private readonly IDataPortServiceFactory<HistoricalMonument> _portServiceFactory;
 
     public HistoricalMonumentsFilter(DblibraryContext context)
     {
         _context = context;
+        _portServiceFactory = new HistoricalMonumentDataPortServiceFactory(_context);
     }
 
     [Route("historical-monuments/{category?}")]
@@ -85,6 +89,26 @@ public class HistoricalMonumentsFilter : Controller
         };
 
         return View(paginationModel);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Export([FromQuery] string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        CancellationToken cancellationToken = default)
+    {
+        var exportService = _portServiceFactory.GetExportService(contentType);
+
+        var memoryStream = new MemoryStream();
+
+        await exportService.WriteToAsync(memoryStream, cancellationToken);
+
+        await memoryStream.FlushAsync(cancellationToken);
+        memoryStream.Position = 0;
+
+
+        return new FileStreamResult(memoryStream, contentType)
+        {
+            FileDownloadName = $"historical_monument_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+        };
     }
 
     private List<HistoricalMonument> Filter(List<HistoricalMonument> allMonuments, Func<HistoricalMonument, bool> predicate)

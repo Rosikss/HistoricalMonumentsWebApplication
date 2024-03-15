@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoricalMonumentsWebApplication.Models;
 
-public partial class Classification
+public partial class Classification : Entity
 {
-    public int Id { get; set; }
     [Required(ErrorMessage = "Поле не може бути пустим")]
     public string? Name { get; set; }
 

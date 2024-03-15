@@ -4,18 +4,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoricalMonumentsWebApplication.Models;
 
-public partial class HistoricalMonument
+public partial class HistoricalMonument : Entity
 {
-    public int Id { get; set; }
     [Display(Name = "Назва")]
     [Required(ErrorMessage = "Поле не може бути пустим")]
     public string? Name { get; set; }
     [Display(Name = "Початок будівництва")]
     [Required(ErrorMessage = "Поле не може бути пустим")]
-    public DateOnly? StartingYear { get; set; }
+    public DateTime? StartingYear { get; set; }
     [Display(Name = "Кінець будівництва")]
     [Required(ErrorMessage = "Поле не може бути пустим")]
-    public DateOnly? EndingYear { get; set; }
+    public DateTime? EndingYear { get; set; }
     [Display(Name = "Опис")]
     [Required(ErrorMessage = "Поле не може бути пустим")]
     public string? Description { get; set; }

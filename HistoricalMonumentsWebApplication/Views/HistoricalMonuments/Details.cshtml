@@ -79,11 +79,11 @@
     <div class="details">
         <div class="field">
             <span>Початок будівництва:</span>
-            <span>@Model.StartingYear</span>
+            <span>@Model.StartingYear?.ToString("d")</span>
         </div>
         <div class="field">
             <span>Кінець будівництва:</span>
-            <span>@Model.EndingYear</span>
+            <span>@Model.EndingYear?.ToString("d")</span>
         </div>
         
         <div class="field">

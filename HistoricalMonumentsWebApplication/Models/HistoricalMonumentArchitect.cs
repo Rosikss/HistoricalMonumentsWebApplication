@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoricalMonumentsWebApplication.Models;
 
-public partial class HistoricalMonumentArchitect
+public partial class HistoricalMonumentArchitect : Entity
 {
-    public int Id { get; set; }
     [Display(Name = "Архітектор")]
     public int ArchitectId { get; set; }
     [Display(Name = "Історична пам'ятка")]

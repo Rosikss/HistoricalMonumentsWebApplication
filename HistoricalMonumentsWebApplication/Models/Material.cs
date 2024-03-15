@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HistoricalMonumentsWebApplication.Models;
 
-public partial class Material
+public partial class Material : Entity
 {
-    public int Id { get; set; }
     [Display(Name = "Назва")]
     [Required(ErrorMessage = "Поле не може бути пустим")]
     public string? Name { get; set; }

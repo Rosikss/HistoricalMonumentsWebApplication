@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HistoricalMonumentsWebApplication.Models;
+using HistoricalMonumentsWebApplication.Services;
 
 namespace HistoricalMonumentsWebApplication.Controllers
 {
     public class HistoricalMonumentsController : Controller
     {
         private readonly DblibraryContext _context;
-
+        private readonly IDataPortServiceFactory<HistoricalMonument> _portServiceFactory;
         public HistoricalMonumentsController(DblibraryContext context)
         {
             _context = context;
+            _portServiceFactory = new HistoricalMonumentDataPortServiceFactory(_context);
         }
 
         // GET: HistoricalMonuments
@@ -170,6 +172,22 @@ namespace HistoricalMonumentsWebApplication.Controllers
         private bool HistoricalMonumentExists(int id)
         {
             return _context.HistoricalMonuments.Any(e => e.Id == id);
+        }
+
+        [HttpGet]
+        public IActionResult Import()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Import(IFormFile fileExcel, CancellationToken cancellationToken = default)
+        {
+            var importService = _portServiceFactory.GetImportService(fileExcel.ContentType);
+            await using var stream = fileExcel.OpenReadStream();
+            await importService.ImportFromStreamAsync(stream, cancellationToken);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
