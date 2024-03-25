@@ -6,12 +6,7 @@
   var pages = Model.Pages;
   var currentPage = Model.CurrentPage;
 }
-@* <div class ="searchForm">
-  <form action="~/historical-monuments/all" >
-    <input type="search" name="searchString"/>
-    <button>Пошук</button>
-  </form>
-</div> *@
+
 <a class="export-btn" asp-controller="HistoricalMonumentsFilter" asp-action="Export">Експортувати</a>
 
 <form action="~/historical-monuments/all">
@@ -41,7 +36,10 @@
           <p class="card-text">@item.Description.Substring(0, 70)...</p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Місто: @item.City.Name</li>
+          <li class="list-group-item">
+            <p class="para-no-margin">Країна: @item.City.Country.Name</p>
+            <p class="para-no-margin">Місто: @item.City.Name</p>
+          </li>
           <li class="list-group-item">Категорія: @item.Classification.Name</li>
 
         </ul>

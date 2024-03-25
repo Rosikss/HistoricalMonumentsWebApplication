@@ -1,4 +1,5 @@
-﻿@model List<HistoricalMonument>
+﻿@using DocumentFormat.OpenXml.Wordprocessing
+@model List<HistoricalMonument>
 
 @{
     ViewData["Title"] = "Головна";
@@ -60,19 +61,14 @@
 
 
 <div class="modal-title">
-    <h2>Статистика сайту</h2>
+    <h2>Інтерактивна мапа</h2>
+    <p>Натисніть на країну щоб відобразити історичні пам'ятки</p>
     <span><em></em></span>
 </div>
 
 <div class="row">
     <div class="col-3">
-        <div id="countByCategoryChart"></div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <div id="countByYearChart"></div>
+        <div id="regions_div"></div>
     </div>
 </div>
 
@@ -82,6 +78,7 @@
     <span><em></em></span>
 </div>
 
+
 <a href="~/historical-monuments">Переглянути пам'ятки</a>
 @section Scripts
 {
@@ -89,60 +86,66 @@
             src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current',
-            {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawColumnCharts);
-        google.charts.setOnLoadCallback(drawPieCharts);
+            {
+                'packages': ['corechart', 'geochart']
+
+            });
+        google.charts.setOnLoadCallback(drawRegionsMap);
         
-        function drawColumnCharts() {
-            fetch('countByCategory')
-                .then(response => response.json())
-                .then(data => {
-                    const dataTable = new
-                        google.visualization.DataTable();
-                    dataTable.addColumn('string', 'Рік');
-                    dataTable.addColumn('number', 'Кількість пам\'яток');
-                    data.forEach(item => {
-                        dataTable.addRow([item.category,
-                            item.count]);
-                    });
-                    const options = {
-                    title: 'Пам\'ятки за категоріями',
-                        width: 1500,
-                        height: 850,
-                        
-                    };
-                    const chart = new
-                        google.visualization.ColumnChart(document.getElementById('countByCategoryChart'));
-                    chart.draw(dataTable, options);
+
+        function drawRegionsMap() {
+            fetch('GetCountByCountry')
+            .then(response => response.json())
+            .then(data => {
+                const dataTable = new
+                    google.visualization.DataTable();
+                dataTable.addColumn('string', 'Рік');
+                dataTable.addColumn('number', 'Кількість пам\'яток');
+                data.forEach(item => {
+                    dataTable.addRow([item.countryName,
+                    item.monumentsCount]);
+                });
+                const options = {
+                    title: 'Регіони',
+                    width: 1250,
+                    height: 850,
+                    
+                };
+                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                google.visualization.events.addListener(chart, 'select', function() {
+                    var selection = chart.getSelection();
+                    if (selection.length > 0) {
+                        var countryCode = dataTable.getValue(selection[0].row, 0); 
+                        redirectToWebsite(countryCode); 
+                    }
                 });
 
-
+                    chart.draw(dataTable, options);
+            });
+            
         }
 
-        function drawPieCharts() {
-            fetch('countByCategory2')
-                .then(response => response.json())
-                .then(data => {
-                    const dataTable = new
-                        google.visualization.DataTable();
-                    dataTable.addColumn('string', 'Рік');
-                    dataTable.addColumn('number', 'Кількість пам\'яток');
-                    data.forEach(item => {
-                        dataTable.addRow([item.category,
-                            item.count]);
-                    });
-                    const options = {
-                        title: 'Популярність Матеріалів',
-                        width: 1500,
-                        height: 850,
-                        
-                    };
-                    const chart = new
-                        google.visualization.PieChart(document.getElementById('countByYearChart'));
-                    chart.draw(dataTable, options);
-                });
+        function redirectToWebsite(countryCode) {
+            var url = ''; 
+            
+            switch (countryCode) {
+                @foreach (KeyValuePair<string, string> item in ViewBag.CountryNames)
+                {
+                    <text>
+                    case '@item.Value':
+                        var encodedCategoryOption = encodeURIComponent('@item.Key');
+                        url = 'https://localhost:7261/historical-monuments/country?page=1&categoryOption=' + encodedCategoryOption;
+                        break;
+                    </text>
+                }
 
-
+                default:
+                    url = 'https://www.example.com/default'; 
+                    break;
+            }
+            
+            window.open(url, '_blank'); 
         }
     </script>
 }

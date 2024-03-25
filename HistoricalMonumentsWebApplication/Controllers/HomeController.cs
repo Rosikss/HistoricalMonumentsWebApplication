@@ -1,7 +1,8 @@
-using HistoricalMonumentsWebApplication.Models;
+﻿using HistoricalMonumentsWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using HistoricalMonumentsWebApplication.Filters.ActionFilters;
 
 namespace HistoricalMonumentsWebApplication.Controllers
 {
@@ -17,6 +18,7 @@ namespace HistoricalMonumentsWebApplication.Controllers
             _context = context;
         }
 
+        [TypeFilter(typeof(AddCountriesActionFilters))]
         public async Task<IActionResult> Index()
         {
             var historicalMonuments = await _context.HistoricalMonuments.ToListAsync();
@@ -26,26 +28,36 @@ namespace HistoricalMonumentsWebApplication.Controllers
             return View(lastThreeHistoricalMonuments);
         }
 
-        [HttpGet("countByCategory")]
+        [HttpGet("[action]")]
         public async Task<IActionResult>
-            GetCountByCategoryAsync(CancellationToken cancellationToken)
+            GetCountByCountry(CancellationToken cancellationToken)
         {
-            var responseItems = await _context.HistoricalMonuments
-                .GroupBy(historicalMonument => historicalMonument.Classification.Name)
-                .Select(group => new CountByCategoryItem(group.Key.ToString(), group.Count()))
-                .ToListAsync(cancellationToken: cancellationToken);
-                
-            return Json(responseItems);
-        }
+            var allMonuments = await _context.HistoricalMonuments.Include(h => h.City)
+                .Include(h => h.Classification)
+                .Include(h => h.Status)
+                .Include(h => h.City).ThenInclude(c => c.Country).ToListAsync(cancellationToken);
 
-        [HttpGet("countByCategory2")]
-        public async Task<IActionResult>
-            GetCountByYearAsync(CancellationToken cancellationToken)
-        {
-            var responseItems = await _context.HistoricalMonumentMaterials
-                .GroupBy(historicalMonument => historicalMonument.Material.Name)
-                .Select(group => new CountByCategoryItem(group.Key.ToString(), group.Count()))
-                .ToListAsync(cancellationToken: cancellationToken);
+            var translations = new Dictionary<string, string>()
+            {
+                ["Україна"] = "Ukraine",
+                ["Німеччина"] = "Germany",
+                ["Франція"] = "France",
+                ["Італія"] = "Italy",
+                ["Чехія"] = "CZ",
+            };
+
+            foreach (var monument in allMonuments)
+            {
+                if (translations.TryGetValue(monument.City.Country.Name, out string translatedCountry))
+                {
+                    monument.City.Country.Name = translatedCountry;
+                }
+            }
+
+            var responseItems = allMonuments
+                .GroupBy(h => h.City.Country.Name)
+                .Select(group => new CountByCountryItem(group.Key.ToString(), group.Count()))
+                .ToList();
 
             return Json(responseItems);
         }

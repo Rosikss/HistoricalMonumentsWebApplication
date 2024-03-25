@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using HistoricalMonumentsWebApplication.Services;
+using System.Net;
 
 
 namespace HistoricalMonumentsWebApplication.Controllers;
@@ -26,26 +27,25 @@ public class HistoricalMonumentsFilter : Controller
     {
         var allMonuments = await _context.HistoricalMonuments.Include(h => h.City)
             .Include(h => h.Classification)
-            .Include(h => h.Status).ToListAsync();
+            .Include(h => h.Status)
+            .Include(h => h.City).ThenInclude(c => c.Country).ToListAsync();
 
         ViewBag.Cities = await _context.Cities.Select(city => city.Name).Distinct().ToListAsync();
         ViewBag.Classifications = await _context.Classifications.Select(classification => classification.Name).Distinct().ToListAsync();
+        ViewBag.Countries = await _context.Countries.Select(classification => classification.Name).Distinct().ToListAsync();
 
-        
+        categoryOption = WebUtility.HtmlDecode(categoryOption);
 
         Dictionary<string, Func<HistoricalMonument, bool>> _filters = new()
         {
             ["classification"] = historicalMonument => historicalMonument.Classification.Name.ToLower() == categoryOption.ToLower(),
-            ["city"] = historicalMonument => historicalMonument.City.Name.ToLower() == categoryOption.ToLower()
+            ["city"] = historicalMonument => historicalMonument.City.Name.ToLower() == categoryOption.ToLower(),
+            ["country"] = historicalMonument => historicalMonument.City.Country.Name.ToLower() == categoryOption.ToLower(),
         };
-
-
-       
 
         var totalElements = allMonuments.Count;
 
         var pages = (int)Math.Ceiling((decimal)totalElements / PageItems);
-
 
         if (page > pages || page < 1 || string.IsNullOrEmpty(category)) return RedirectToAction(nameof(Index), new { page = 1, category = "all" });
 
@@ -70,8 +70,6 @@ public class HistoricalMonumentsFilter : Controller
 
             return View(paginationModel2);
         }
-
-        
 
         var paginationHistoricalMonuments = filteredMonuments.Skip((page - 1) * PageItems).Take(PageItems).ToList();
 

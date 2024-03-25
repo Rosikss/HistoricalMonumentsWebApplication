@@ -1,9 +1,7 @@
 ﻿@{
-}
-
-@{
     List<string> cityNames = ViewBag.Cities;
     List<string> classificationNames = ViewBag.Classifications;
+    List<string> countryNames = ViewBag.Countries;
 }
 
 <!DOCTYPE html>
@@ -64,13 +62,22 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <button class="nav-link dropdown-toggle" style="border: none; background-color: white">Категорії</button>
-                            <div class="dropdown-options row">
-                                @foreach (var classificationName in classificationNames)
-                                {
-                                    <a href="~/historical-monuments/classification?page=1&categoryOption=@classificationName" class="col" >@classificationName</a>
-                                }
-                            </div>
+                          <button class="nav-link dropdown-toggle" style="border: none; background-color: white">Категорії</button>
+                          <div class="dropdown-options row">
+                            @foreach (var classificationName in classificationNames)
+                            {
+                              <a href="~/historical-monuments/classification?page=1&categoryOption=@classificationName" class="col" >@classificationName</a>
+                            }
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <button class="nav-link dropdown-toggle" style="border: none; background-color: white">Країни</button>
+                          <div class="dropdown-options row">
+                                @foreach (var countryName in countryNames)
+                            {
+                              <a href="~/historical-monuments/country?page=1&categoryOption=@countryName" class="col" >@countryName</a>
+                            }
+                          </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="~/historical-monuments">
