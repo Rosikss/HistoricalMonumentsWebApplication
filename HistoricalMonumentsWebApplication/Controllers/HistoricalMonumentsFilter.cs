@@ -1,14 +1,15 @@
 ﻿using HistoricalMonumentsWebApplication.Models;
+using HistoricalMonumentsWebApplication.Models.DbContexts;
+using HistoricalMonumentsWebApplication.Models.Entities;
+using HistoricalMonumentsWebApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
-using HistoricalMonumentsWebApplication.Services;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace HistoricalMonumentsWebApplication.Controllers;
-
+[AllowAnonymous]
 public class HistoricalMonumentsFilter : Controller
 {
     private const int PageItems = 8;

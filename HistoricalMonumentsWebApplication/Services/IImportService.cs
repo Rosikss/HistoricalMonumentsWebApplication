@@ -1,4 +1,4 @@
-﻿using HistoricalMonumentsWebApplication.Models;
+﻿using HistoricalMonumentsWebApplication.Models.Entities;
 
 namespace HistoricalMonumentsWebApplication.Services
 {

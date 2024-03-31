@@ -1,4 +1,6 @@
-﻿namespace HistoricalMonumentsWebApplication.Models
+﻿using HistoricalMonumentsWebApplication.Models.Entities;
+
+namespace HistoricalMonumentsWebApplication.Models
 {
     public class PaginationModel
     {

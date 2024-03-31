@@ -1,11 +1,14 @@
-﻿using HistoricalMonumentsWebApplication.Models;
+﻿using HistoricalMonumentsWebApplication.Filters.ActionFilters;
+using HistoricalMonumentsWebApplication.Models;
+using HistoricalMonumentsWebApplication.Models.DbContexts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using HistoricalMonumentsWebApplication.Filters.ActionFilters;
 
 namespace HistoricalMonumentsWebApplication.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

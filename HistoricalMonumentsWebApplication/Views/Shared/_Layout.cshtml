@@ -7,6 +7,7 @@
   @await Html.PartialAsync("_Favicons")
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+  <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true"/>
   <link rel="stylesheet" href="~/HistoricalMonumentsWebApplication.styles.css" asp-append-version="true"/>
 </head>
 <body>
@@ -22,20 +23,92 @@
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ">
         <ul class="navbar-nav flex-grow-1">
-          <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="HistoricalMonumentsFilter" asp-action="Index">Історичні пам'ятки</a>
-          </li>
+          @if (ViewBag.CurrentUrl == "~/Home")
+          {
+            <li class="nav-item">
+                                <a class="nav-link text-light nav-active" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+            </li>
+          }
+          else
+          {
+            <li class="nav-item">
+              <a class="nav-link text-light " asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+            </li>
+          }
+
+          @if (ViewBag.CurrentUrl == "~/historical-monuments")
+          {
+            <li class="nav-item">
+              <a class="nav-link text-light nav-active" asp-area="" asp-controller="HistoricalMonumentsFilter" asp-action="Index">Історичні пам'ятки</a>
+            </li>
+          }
+          else
+          {
+            <li class="nav-item">
+              <a class="nav-link text-light" asp-area="" asp-controller="HistoricalMonumentsFilter" asp-action="Index">Історичні пам'ятки</a>
+            </li>
+          }
+
 
         </ul>
       </div>
       <div class="my-2 my-lg-0">
-        <ul>
-          <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Architects" asp-action="Index">Адмін</a>
-          </li>
+        <ul class="navbar-nav">
+          @if (User.Identity.IsAuthenticated)
+          {
+            <li class="nav-item">
+              @User.Identity.Name
+            </li>
+            if (User.IsInRole("Admin"))
+            {
+              if (ViewBag.CurrentUrl == "~/Admin")
+              {
+                <li class="nav-item">
+                  <a class="nav-link text-light nav-active" asp-area="Admin" asp-controller="Architects" asp-action="Index">Адмін</a>
+                </li>
+              }
+              else
+              {
+                <li class="nav-item">
+                  <a class="nav-link text-light" asp-area="Admin" asp-controller="Architects" asp-action="Index">Адмін</a>
+                </li>
+              }
+            }
+
+            <li class="nav-item">
+              <a asp-controller="Account" asp-action="Logout">Вихід</a>
+            </li>
+          }
+          else
+          {
+            if (ViewBag.CurrentUrl == "~/Account/Login")
+            {
+              <li class="nav-item">
+                <a asp-controller="Account" asp-action="Login" class="nav-link text-light nav-active">Логін</a>
+              </li>
+            }
+            else
+            {
+              <li class="nav-item">
+                <a asp-controller="Account" asp-action="Login" class="nav-link text-light">Логін</a>
+              </li>
+            }
+
+
+            if (ViewBag.CurrentUrl == "~/Account/Register")
+            {
+              <li class="nav-item">
+                <a asp-controller="Account" asp-action="Register" class="nav-link text-light nav-active">Реєстрація</a>
+              </li>
+            }
+            else
+            {
+              <li class="nav-item">
+                <a asp-controller="Account" asp-action="Register" class="nav-link text-light">Реєстрація</a>
+              </li>
+            }
+          }
+
         </ul>
       </div>
     </div>
