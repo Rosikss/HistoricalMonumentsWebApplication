@@ -11,6 +11,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = nameof(UserTypeOptions.Admin))]
+    [Route("[controller]")]
     public class HistoricalMonumentsController : Controller
     {
         private readonly DblibraryContext _context;
@@ -29,6 +30,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: HistoricalMonuments/Details/5
+        [HttpGet("[action]/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +52,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: HistoricalMonuments/Create
+        [HttpGet("[action]")]
         public IActionResult Create()
         {
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
@@ -61,7 +64,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // POST: HistoricalMonuments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,StartingYear,EndingYear,Description,CityId,ClassificationId,StatusId")] HistoricalMonument historicalMonument)
         {
@@ -78,6 +81,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: HistoricalMonuments/Edit/5
+        [HttpGet("[action]/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,8 +103,9 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // POST: HistoricalMonuments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[action]/{id?}")]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartingYear,EndingYear,Description,CityId,ClassificationId,StatusId, Photo")] HistoricalMonument historicalMonument)
         {
             if (id != historicalMonument.Id)
@@ -135,6 +140,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: HistoricalMonuments/Delete/5
+        [HttpGet("[action]/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,7 +162,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // POST: HistoricalMonuments/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("[action]/{id?}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -175,13 +181,13 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
             return _context.HistoricalMonuments.Any(e => e.Id == id);
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public IActionResult Import()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Import(IFormFile fileExcel, CancellationToken cancellationToken = default)
         {
             var importService = _portServiceFactory.GetImportService(fileExcel.ContentType);

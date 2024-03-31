@@ -170,3 +170,7 @@ select:focus{
 .para-no-margin {
   margin: 0;
 }
+
+.username {
+  color: white;
+}

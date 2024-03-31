@@ -119,7 +119,7 @@ namespace HistoricalMonumentsWebApplication.Controllers
                 {
                     if (await _userManager.IsInRoleAsync(user, UserTypeOptions.Admin.ToString()))
                     {
-                        return RedirectToAction("Index", "HistoricalMonumentArchitects", new { area = "Admin" });
+                        return RedirectToAction("Index", "Architects", new { area = "Admin" });
                     }
                 }
 

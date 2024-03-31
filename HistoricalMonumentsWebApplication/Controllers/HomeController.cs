@@ -22,6 +22,8 @@ namespace HistoricalMonumentsWebApplication.Controllers
         }
 
         [TypeFilter(typeof(AddCountriesActionFilters))]
+        [Route("Home")]
+        [Route("/")]
         public async Task<IActionResult> Index()
         {
             var historicalMonuments = await _context.HistoricalMonuments.ToListAsync();

@@ -10,6 +10,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = nameof(UserTypeOptions.Admin))]
+    [Route("[controller]")]
     public class ArchitectsController : Controller
     {
         private readonly DblibraryContext _context;
@@ -27,6 +28,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Architects/Details/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +48,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Architects/Create
+        [Route("[action]")]
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name");
@@ -55,7 +58,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // POST: Architects/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,CountryId,BirthYear,DeathYear")] Architect architect)
         {
@@ -70,6 +73,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Architects/Edit/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,7 +93,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // POST: Architects/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[action]/{id?}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,CountryId,BirthYear,DeathYear")] Architect architect)
         {
@@ -123,6 +127,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Architects/Delete/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +147,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // POST: Architects/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("[action]/{id?}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

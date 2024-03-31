@@ -10,6 +10,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = nameof(UserTypeOptions.Admin))]
+    [Route("[controller]")]
     public class HistoricalMonumentMaterialsController : Controller
     {
         private readonly DblibraryContext _context;

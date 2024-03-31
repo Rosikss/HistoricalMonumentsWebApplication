@@ -10,6 +10,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = nameof(UserTypeOptions.Admin))]
+    [Route("[controller]")]
     public class CitiesController : Controller
     {
         private readonly DblibraryContext _context;
@@ -28,6 +29,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Cities/Details/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +49,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Cities/Create
+        [Route("[action]")]
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name");
@@ -58,6 +61,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("[action]")]
         public async Task<IActionResult> Create([Bind("Id,Name,CountryId")] City city)
         {
             if (ModelState.IsValid)
@@ -71,6 +75,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Cities/Edit/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,7 +95,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         // POST: Cities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[action]/{id?}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CountryId")] City city)
         {
@@ -124,6 +129,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // GET: Cities/Delete/5
+        [Route("[action]/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,7 +149,7 @@ namespace HistoricalMonumentsWebApplication.Areas.Admin.Controllers
         }
 
         // POST: Cities/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("[action]/{id?}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
