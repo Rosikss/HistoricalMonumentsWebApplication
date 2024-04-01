@@ -86,11 +86,11 @@ public class HistoricalMonumentsFilter : Controller
             Category = category,
             CategoryOption = string.IsNullOrEmpty(categoryOption)  ? "Empty" : categoryOption
         };
-
+        
         return View(paginationModel);
     }
 
-    [HttpGet]
+    [HttpGet("historical-monuments/[action]")]
     public async Task<IActionResult> Export([FromQuery] string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         CancellationToken cancellationToken = default)
     {

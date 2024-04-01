@@ -6,5 +6,6 @@ namespace HistoricalMonumentsWebApplication.Models.IdentityEntities
     {
         public string? PersonName { get; set; }
         public List<int>? FavouriteHistoricalMonuments { get; set; }
+
     }
 }

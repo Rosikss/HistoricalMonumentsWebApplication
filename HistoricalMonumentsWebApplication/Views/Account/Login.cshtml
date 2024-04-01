@@ -32,6 +32,7 @@
             <div class="w-25"></div>
             <div class="flex-1">
                 <button class="button button-green-back" type="submit">Логін</button>
+                <a asp-action="ForgotPassword" asp-controller="Account" class="link-hover">Забули пароль?</a>
                 <div asp-validation-summary="All" class="text-red"></div>
                 @if (ViewBag.Errors is not null)
                 {

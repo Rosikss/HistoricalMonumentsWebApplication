@@ -57,8 +57,8 @@
           @if (User.Identity.IsAuthenticated)
           {
             <li class="nav-item">
-                                <a class="nav-link text-light">@User.Identity.Name</a>
-                            </li>
+              <a class="nav-link text-light">@User.Identity.Name</a>
+            </li>
             if (User.IsInRole("Admin"))
             {
               if (ViewBag.CurrentUrl == "~/Admin")
@@ -70,13 +70,13 @@
               else
               {
                 <li class="nav-item">
-                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Architects" asp-action="Index">Адмін</a>
+                  <a class="nav-link text-light" asp-area="Admin" asp-controller="Architects" asp-action="Index">Адмін</a>
                 </li>
               }
             }
 
             <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Вихід</a>
+              <a class="nav-link text-light" asp-controller="Account" asp-action="Logout">Вихід</a>
             </li>
           }
           else

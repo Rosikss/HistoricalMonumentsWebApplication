@@ -1,6 +1,8 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using HistoricalMonumentsWebApplication.Models;
 using HistoricalMonumentsWebApplication.Models.DbContexts;
 using HistoricalMonumentsWebApplication.Models.IdentityEntities;
+using HistoricalMonumentsWebApplication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,6 +12,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+
+builder.Services.AddScoped<IEmailSender, EmailService>();
 
 builder.Services.AddDbContext<DblibraryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
