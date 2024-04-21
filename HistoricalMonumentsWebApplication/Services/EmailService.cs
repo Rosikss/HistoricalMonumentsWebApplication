@@ -14,7 +14,7 @@ namespace HistoricalMonumentsWebApplication.Services
             _emailConfig = emailConfig.Value;
             _configuration = configuration;
         }
-
+        
         public void SendEmail(Message message)
         {
             var emailMessage = CreateEmailMessage(message);

@@ -46,7 +46,7 @@ namespace HistoricalMonumentsWebApplication.Controllers
 
                 return View(registerDTO);
             }
-
+            
             var user = new ApplicationUser
             {
                 Email = registerDTO.Email,
